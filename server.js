@@ -9,12 +9,26 @@ const typeDefs = gql`
         movies: [Movie]
         movie: Movie
     }
+    type Mutation {
+        createMovie(title: String!): Boolean
+        deleteMovie(title: String!): Boolean
+    }
  `;
 
 const resolvers = {
     Query: {
         movies: () => [],
         movie: () => ({title: "Hello", year: 2022})
+    },
+    Mutation: {
+        createMovie: (_, {title}) => {
+            console.log(title);
+            return true
+        },
+        deleteMovie: (_, {title}) => {
+            console.log(title);
+            return true
+        },
     }
 }
 
