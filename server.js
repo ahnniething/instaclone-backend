@@ -1,13 +1,20 @@
 import {ApolloServer, gql} from "apollo-server";
 
 const typeDefs = gql`
+    type Movie{
+        title: String
+        year: Int
+    }
     type Query {
-        hello: String
-    }`;
+        movies: [Movie]
+        movie: Movie
+    }
+ `;
 
 const resolvers = {
     Query: {
-        hello: () => "bebe",
+        movies: () => [],
+        movie: () => ({title: "Hello", year: 2022})
     }
 }
 
