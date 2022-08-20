@@ -1,10 +1,11 @@
 {
   "name": "instaclone",
   "version": "1.0.0",
-  "description": "",
+  "description": "Instaclone Backend",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node server"
+    "dev": "nodemon --exec babel-node server",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
