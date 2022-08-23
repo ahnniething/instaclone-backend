@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Movie {
-  id       Int      @id @default(autoincrement())
-  title    String
-  year     Int
-  genre    String?
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  title     String
+  year      Int
+  genre     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

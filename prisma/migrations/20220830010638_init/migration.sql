@@ -4,8 +4,8 @@ CREATE TABLE "Movie" (
     "title" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "genre" TEXT,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updateAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Movie_pkey" PRIMARY KEY ("id")
 );
