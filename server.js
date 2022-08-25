@@ -19,7 +19,7 @@ const typeDefs = gql`
         movie: Movie
     }
     type Mutation {
-        createMovie(title: String!): Boolean
+        createMovie(title: String!, year: Int!, genre:String): Movie
         deleteMovie(title: String!): Boolean
     }
  `;
@@ -30,10 +30,12 @@ const resolvers = {
         movie: () => ({title: "Hello", year: 2022})
     },
     Mutation: {
-        createMovie: (_, {title}) => {
-            console.log(title);
-            return true
-        },
+        createMovie: (_, {title, year, genre}) =>
+            client.movie.create({ data: {
+                title,
+                year,
+                genre
+        }}),
         deleteMovie: (_, {title}) => {
             console.log(title);
             return true
