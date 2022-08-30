@@ -1,6 +1,6 @@
 import {gql} from "apollo-server";
 
-const typeDefs = gql`
+export default gql`
 type Movie{
     id: Int!
     title: String!
