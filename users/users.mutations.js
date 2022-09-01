@@ -1,10 +1,11 @@
 import client from "../client";
+import bcrypt from "bcrypt";
 
 export default {
   Mutation: {
     createAccount: async (
       _,
-      { id, firstName, lastName, username, email, createdAt, updateAt }
+      { firstName, lastName, username, email, password }
     ) => {
       // check if username or email are already on DB.
       const existingUser = await client.user.findFirst({
@@ -21,7 +22,18 @@ export default {
       });
       console.log(existingUser);
       // hash password
+      const uglyPassword = await bcrypt.hash(password, 10);
+      console.log(uglyPassword);
       // save and return
+      return client.user.create({
+        data: {
+          firstName,
+          lastName,
+          username,
+          email,
+          password: uglyPassword
+        }
+      });
     }
   }
 };
