@@ -4,8 +4,8 @@ Instaclone Backend
 
 ## User:
 
-- [ ] Create Account (mutation)
-- [ ] See Profile (query)
+- [x] Create Account (mutation)
+- [x] See Profile (query)
 - [ ] Login
 - [ ] Edit Profile
 - [ ] Change Avatar (Image Upload)

@@ -59,7 +59,7 @@ export default {
         };
       }
 
-      // issue a token and send it to the user
+      // issue a token(jwt) and send it to the user
     }
   }
 };
