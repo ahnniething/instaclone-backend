@@ -1,5 +1,6 @@
 import client from "../../client";
 import bcrypt from "bcrypt";
+import { protectResolver } from "../users.utils";
 
 export default {
   Mutation: {
@@ -8,9 +9,7 @@ export default {
       { firstName, lastName, username, email, password: newPassword },
       { loggedInUser }
     ) => {
-      if (!loggedInUser) {
-        throw new Error("You need to login.");
-      }
+      protectResolver(loggedInUser);
       let uglyPassword = null;
       if (newPassword) {
         uglyPassword = await bcrypt.hash(newPassword, 10);
