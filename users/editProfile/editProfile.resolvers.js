@@ -1,13 +1,12 @@
 import client from "../../client";
 import bcrypt from "bcrypt";
-import { protectResolver } from "../users.utils";
 
 export default {
   Mutation: {
     editProfile: async (
       _,
       { firstName, lastName, username, email, password: newPassword },
-      { loggedInUser }
+      { loggedInUser, protectResolver }
     ) => {
       protectResolver(loggedInUser);
       let uglyPassword = null;
