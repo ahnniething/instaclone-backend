@@ -1,10 +1,10 @@
-import client from "../../client";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Resolvers } from "../../types";
 
-export default {
+const resolvers: Resolvers = {
   Mutation: {
-    login: async (_, { username, password }) => {
+    login: async (_, { username, password }, { client }) => {
       // find user with args.username
       const user = await client.user.findFirst({ where: { username } });
       if (!user) {
@@ -22,7 +22,7 @@ export default {
         };
       }
       // issue a token(jwt) and send it to the user
-      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY!);
       return {
         ok: true,
         token
@@ -30,3 +30,5 @@ export default {
     }
   }
 };
+
+export default resolvers;
