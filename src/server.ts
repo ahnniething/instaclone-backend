@@ -1,32 +1,32 @@
 require("dotenv").config();
 
-import { ApolloServer } from "apollo-server";
+import { ApolloServer, ExpressContext } from "apollo-server-express";
+import { graphqlUploadExpress } from "graphql-upload";
+import express, { Express } from "express";
 import schema from "./schema";
 import { getUser } from "./users/users.utils";
 import client from "./client";
 
-const server = new ApolloServer({
-  schema,
-  context: async ({ req }) => {
-    console.log(req.headers.authorization);
-    if (req.headers.authorization) {
-      return {
-        loggedInUser: await getUser(req.headers.authorization),
-        client: client,
-      };
-    } else {
-      return {
-        client: client,
-      };
-      // throw new Error("인증되지 않은 사용자입니다.");
-    }
-  },
-});
-
 const PORT = process.env.PORT;
 
-server
-  .listen(PORT)
-  .then(() =>
-    console.log(`🚀 Server is running on http://localhost:${PORT} ✅`)
-  );
+interface ConnectionParams {
+  token?: string;
+  "content-type"?: string;
+}
+
+const startServer = async (): Promise<void> => {
+  const apolloServer: ApolloServer<ExpressContext> = new ApolloServer({
+    schema,
+    context: async ({ req }) => {
+      return { loggedInUser: await getUser(req.headers.authorization) };
+    },
+  });
+
+  await apolloServer.start();
+  const app: Express = express();
+  app.use(graphqlUploadExpress());
+  apolloServer.applyMiddleware({ app });
+  await new Promise((func) => app.listen({ port: PORT }, func as VoidFunction));
+  console.log(`🚀 Server: http://localhost:${PORT}${apolloServer.graphqlPath}`);
+};
+startServer();
