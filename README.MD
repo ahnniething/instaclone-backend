@@ -85,6 +85,10 @@ Instaclone Backend
         - 토큰에는 들어있는 정보는 모든 사람이 볼 수 있다. 따라서 비밀 정보(비밀번호 같은)를 넣으면 안됨. 비밀번호가 암호화되어 있다고 하더라도 개인정보는 넣지 않는다. 토큰의 목적은 우리가 싸인했던 토큰인지 유저가 누구인지 토큰 만료일이 언제인지 등을 확인하는 것이다.
         - private key는 공개하면 안됨
 - [ ] Edit Profile
+        - Upload scalar type 추가 for avatar
+        - Server 변경 : apllo-server -> apollo-server-express
+        - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 altire 설치
+        - 
 - [ ] Change Avatar (Image Upload)
 - [ ] Follow User
 - [ ] Unfollow User

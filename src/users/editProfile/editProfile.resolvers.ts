@@ -12,7 +12,7 @@ const resolverFn: Resolver = async (
   if (newPassword) {
     uglyPassword = await bcrypt.hash(newPassword, 10);
   }
-  const updatedUSer = await client.user.update({
+  const updatedUser = await client.user.update({
     where: {
       id: loggedInUser!.id,
     },
@@ -25,7 +25,7 @@ const resolverFn: Resolver = async (
       ...(uglyPassword && { password: uglyPassword }),
     },
   });
-  if (updatedUSer) {
+  if (updatedUser.id) {
     return {
       ok: true,
     };

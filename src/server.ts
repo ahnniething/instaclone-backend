@@ -9,16 +9,14 @@ import client from "./client";
 
 const PORT = process.env.PORT;
 
-interface ConnectionParams {
-  token?: string;
-  "content-type"?: string;
-}
-
 const startServer = async (): Promise<void> => {
   const apolloServer: ApolloServer<ExpressContext> = new ApolloServer({
     schema,
     context: async ({ req }) => {
-      return { loggedInUser: await getUser(req.headers.authorization) };
+      return {
+        loggedInUser: await getUser(req.headers.token),
+        client: client,
+      };
     },
   });
 
