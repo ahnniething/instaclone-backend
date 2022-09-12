@@ -67,6 +67,9 @@ Instaclone Backend
         - 로그인한 유저가 없을 수도 있기 때문에 jwt이 필요한 resolver를 보호해야 함 
         - wrap fucntion : create a resolver that wraps other resolvers
         - currying : 함수를 리턴하는 함수
+- 전 프로세스가 죽을 시간을 주기 위해서 2초간 딜레이를 줘서 nodemon이 2초 기다린 후에 서버를 재시작함. 
+  - "scripts": {
+    "dev": "nodemon --exec ts-node src/server --ext ts,js --delay 2s",
 
 
 
@@ -87,8 +90,8 @@ Instaclone Backend
 - [ ] Edit Profile
         - Upload scalar type 추가 for avatar
         - Server 변경 : apllo-server -> apollo-server-express
-        - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 altire 설치
-        - 
+        - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 Altire 설치
+        - Upload 타입으로 Altire에서 파일을 올리면 createReadStream이 보임. 
 - [ ] Change Avatar (Image Upload)
 - [ ] Follow User
 - [ ] Unfollow User
