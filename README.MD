@@ -70,7 +70,9 @@ Instaclone Backend
 - 전 프로세스가 죽을 시간을 주기 위해서 2초간 딜레이를 줘서 nodemon이 2초 기다린 후에 서버를 재시작함. 
   - "scripts": {
     "dev": "nodemon --exec ts-node src/server --ext ts,js --delay 2s",
-
+- Playground polling
+    - polling: backend로 request를 전송하고 있음
+    - production 일 때는 server를 cloud에 업로드하기 때문에 playground를 비활성화할 예정
 
 
 ## User:
@@ -89,9 +91,19 @@ Instaclone Backend
         - private key는 공개하면 안됨
 - [ ] Edit Profile
         - Upload scalar type 추가 for avatar
-        - Server 변경 : apllo-server -> apollo-server-express
         - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 Altire 설치
         - Upload 타입으로 Altire에서 파일을 올리면 createReadStream이 보임. 
+        - file system import from node.js : import fs from "fs";
+        - readStream.pipe(writeStream);
+        - Server 변경 : apllo-server -> express server (apollo-server-express)
+            - apllo-server를 사용하면 graphql 서버를 구축할 수 있지만, graphql 외에 rest방식이나 내부 퍼블릭 파일에 접근하기 위해서는 express 서버를 사용해야한다.
+            - apollo-server-express: express 기반의 서버에 apollo-server-express 미들웨어를 지원하는 방식으로 변경 /graphql path에서는 graphql playground를 띄우도록 한다!  
+        - morgan 
+            - npm i @types/morgan
+            - logger임
+            - logger는 applymiddelware 하기 전에 적어야 graphql log가 반영됨
+        - uploads 폴더에 있는 파일에 접근하기 
+            - app.use("/uploads", express.static("uploads"));
 - [ ] Change Avatar (Image Upload)
 - [ ] Follow User
 - [ ] Unfollow User
