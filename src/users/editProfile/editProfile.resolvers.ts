@@ -1,22 +1,26 @@
 import * as bcrypt from "bcrypt";
 import { Resolver, Resolvers } from "../../types";
 import { protectedResolver } from "../users.utils";
-import { GraphQLUpload } from "graphql-upload";
-import { createReadStream } from "fs";
 import { AvatarFile } from "../../shared/shared.interfaces";
+import { createWriteStream } from "fs";
 
 const resolverFn: Resolver = async (
   _,
   { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser, client }
 ) => {
+  //upload files to uploads folder
   // console.log("::editProfile resolver:::avatar", avatar);
   const { filename, createReadStream }: AvatarFile = await avatar.file;
-  const stream = createReadStream();
-  console.log("::editProfile resolver:::stream", stream);
-  let uglyPassword = null;
+  const readStream = createReadStream();
+  //process.cwd(): current working directory
+  const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
+  readStream.pipe(writeStream);
+
+  //
+  let decodedPassword = null;
   if (newPassword) {
-    uglyPassword = await bcrypt.hash(newPassword, 10);
+    decodedPassword = await bcrypt.hash(newPassword, 10);
   }
   const updatedUser = await client.user.update({
     where: {
@@ -28,7 +32,7 @@ const resolverFn: Resolver = async (
       username,
       email,
       bio,
-      ...(uglyPassword && { password: uglyPassword }),
+      ...(decodedPassword && { password: decodedPassword }),
     },
   });
   if (updatedUser.id) {
