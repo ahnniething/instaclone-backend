@@ -14,7 +14,10 @@ const resolverFn: Resolver = async (
   const { filename, createReadStream }: AvatarFile = await avatar.file;
   const readStream = createReadStream();
   //process.cwd(): current working directory
-  const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
+  const writeStream = createWriteStream(
+    //파일명 중복방지
+    process.cwd() + "/uploads/" + loggedInUser?.id + Date.now() + filename
+  );
   readStream.pipe(writeStream);
 
   //
