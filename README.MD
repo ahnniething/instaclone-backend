@@ -89,7 +89,7 @@ Instaclone Backend
         - 이후에는 유저가 토큰을 보내면 그 토큰이 갖고 있는 id를 확인하고, 토큰이 우리가 서명한 토큰인지 확인한다. 토큰은 서버가 프론트엔드에 연결되어 있지 않을 때 사용한다. 세션과 쿠키는 서버와 프론트엔드가 분리되어 있지 않을 때 적합하다.
         - 토큰에는 들어있는 정보는 모든 사람이 볼 수 있다. 따라서 비밀 정보(비밀번호 같은)를 넣으면 안됨. 비밀번호가 암호화되어 있다고 하더라도 개인정보는 넣지 않는다. 토큰의 목적은 우리가 싸인했던 토큰인지 유저가 누구인지 토큰 만료일이 언제인지 등을 확인하는 것이다.
         - private key는 공개하면 안됨
-- [ ] Edit Profile
+- [x] Edit Profile
         - Upload scalar type 추가 for avatar
         - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 Altire 설치
         - Upload 타입으로 Altire에서 파일을 올리면 createReadStream이 보임. 
@@ -104,6 +104,8 @@ Instaclone Backend
             - logger는 applymiddelware 하기 전에 적어야 graphql log가 반영됨
         - uploads 폴더에 있는 파일에 접근하기 
             - app.use("/uploads", express.static("uploads"));
+        - 저장할 파일명 중복 방지
+            - process.cwd() + "/uploads/" + loggedInUser?.id + Date.now() + filename
 - [ ] Change Avatar (Image Upload)
 - [ ] Follow User
 - [ ] Unfollow User
