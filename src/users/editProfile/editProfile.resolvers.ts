@@ -9,18 +9,19 @@ const resolverFn: Resolver = async (
   { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser, client }
 ) => {
-  //upload files to uploads folder
-  // console.log("::editProfile resolver:::avatar", avatar);
-  const { filename, createReadStream }: AvatarFile = await avatar.file;
-  const readStream = createReadStream();
-  //process.cwd(): current working directory
-  const writeStream = createWriteStream(
-    //파일명 중복방지
-    process.cwd() + "/uploads/" + loggedInUser?.id + Date.now() + filename
-  );
-  readStream.pipe(writeStream);
+  let avatarUrl = null;
+  if (avatar) {
+    //upload files to uploads folder
+    const { filename, createReadStream }: AvatarFile = await avatar.file;
+    const newFilename = `${loggedInUser?.id}-${Date.now()}-${filename}`;
+    const readStream = createReadStream();
+    const writeStream = createWriteStream(
+      process.cwd() + "/uploads/" + newFilename
+    );
+    readStream.pipe(writeStream);
+    avatarUrl = `http://localhost:4000/uploads/${newFilename}`;
+  }
 
-  //
   let decodedPassword = null;
   if (newPassword) {
     decodedPassword = await bcrypt.hash(newPassword, 10);
@@ -36,6 +37,7 @@ const resolverFn: Resolver = async (
       email,
       bio,
       ...(decodedPassword && { password: decodedPassword }),
+      ...(avatarUrl && { avatar: avatarUrl }),
     },
   });
   if (updatedUser.id) {
