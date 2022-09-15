@@ -22,9 +22,9 @@ const resolverFn: Resolver = async (
     avatarUrl = `http://localhost:4000/uploads/${newFilename}`;
   }
 
-  let decodedPassword = null;
+  let codedPassword = null;
   if (newPassword) {
-    decodedPassword = await bcrypt.hash(newPassword, 10);
+    codedPassword = await bcrypt.hash(newPassword, 10);
   }
   const updatedUser = await client.user.update({
     where: {
@@ -36,7 +36,7 @@ const resolverFn: Resolver = async (
       username,
       email,
       bio,
-      ...(decodedPassword && { password: decodedPassword }),
+      ...(codedPassword && { password: codedPassword }),
       ...(avatarUrl && { avatar: avatarUrl }),
     },
   });

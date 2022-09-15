@@ -27,19 +27,25 @@ const resolvers: Resolvers = {
           throw new Error("This username/email is already taken.");
         }
         // hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const codedPassword = await bcrypt.hash(password, 10);
         // save and return
-        return client.user.create({
+        await client.user.create({
           data: {
             firstName,
             lastName,
             username,
             email,
-            password: hashedPassword,
+            password: codedPassword,
           },
         });
+        return {
+          ok: true,
+        };
       } catch (e) {
-        return e;
+        return {
+          ok: false,
+          error: "Can't create account.",
+        };
       }
     },
   },
