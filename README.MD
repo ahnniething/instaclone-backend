@@ -89,29 +89,39 @@ Instaclone Backend
         - 이후에는 유저가 토큰을 보내면 그 토큰이 갖고 있는 id를 확인하고, 토큰이 우리가 서명한 토큰인지 확인한다. 토큰은 서버가 프론트엔드에 연결되어 있지 않을 때 사용한다. 세션과 쿠키는 서버와 프론트엔드가 분리되어 있지 않을 때 적합하다.
         - 토큰에는 들어있는 정보는 모든 사람이 볼 수 있다. 따라서 비밀 정보(비밀번호 같은)를 넣으면 안됨. 비밀번호가 암호화되어 있다고 하더라도 개인정보는 넣지 않는다. 토큰의 목적은 우리가 싸인했던 토큰인지 유저가 누구인지 토큰 만료일이 언제인지 등을 확인하는 것이다.
         - private key는 공개하면 안됨
-- [x] Edit Profile
-        - Upload scalar type 추가 for avatar
-        - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 Altire 설치
-        - Upload 타입으로 Altire에서 파일을 올리면 createReadStream이 보임. 
-        - file system import from node.js : import fs from "fs";
-        - readStream.pipe(writeStream);
-        - Server 변경 : apllo-server -> express server (apollo-server-express)
-            - apllo-server를 사용하면 graphql 서버를 구축할 수 있지만, graphql 외에 rest방식이나 내부 퍼블릭 파일에 접근하기 위해서는 express 서버를 사용해야한다.
-            - apollo-server-express: express 기반의 서버에 apollo-server-express 미들웨어를 지원하는 방식으로 변경 /graphql path에서는 graphql playground를 띄우도록 한다!  
-        - morgan 
-            - npm i @types/morgan
-            - logger임
-            - logger는 applymiddelware 하기 전에 적어야 graphql log가 반영됨
-        - uploads 폴더에 있는 파일에 접근하기 
-            - app.use("/uploads", express.static("uploads"));
-        - 저장할 파일명 중복 방지
-            - process.cwd() + "/uploads/" + loggedInUser?.id + Date.now() + filename
-- [ ] Change Avatar (Image Upload)
-- [ ] Follow User
-- [ ] Unfollow User
-- [ ] See Followers w/ Pagination
-- [ ] See Following w/ Pagination
-- [ ] Computed Fields
+- [x] Edit Profile/Change Avatar (Image Upload)
+    - Upload scalar type 추가 for avatar
+    - graphql playground 에서는 파일업로드를 할 수 없어서 graphQL 클라이언트인 Altire 설치
+    - Upload 타입으로 Altire에서 파일을 올리면 createReadStream이 보임. 
+    - file system import from node.js : import fs from "fs";
+    - readStream.pipe(writeStream);
+    - Server 변경 : apllo-server -> express server (apollo-server-express)
+        - apllo-server를 사용하면 graphql 서버를 구축할 수 있지만, graphql 외에 rest방식이나 내부 퍼블릭 파일에 접근하기 위해서는 express 서버를 사용해야한다.
+        - apollo-server-express: express 기반의 서버에 apollo-server-express 미들웨어를 지원하는 방식으로 변경 /graphql path에서는 graphql playground를 띄우도록 한다!  
+    - morgan 
+        - npm i @types/morgan
+        - logger임
+        - logger는 applymiddelware 하기 전에 적어야 graphql log가 반영됨
+    - uploads 폴더에 있는 파일에 접근하기 
+        - app.use("/uploads", express.static("uploads"));
+    - 저장할 파일명 중복 방지
+        - process.cwd() + "/uploads/" + loggedInUser?.id + Date.now() + filename
+- [x] Follow/Unfollow User
+    - Followers/Following is self-referencing relationship
+    - https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations
+    - schema.prisma 에 Followers, Following 추가
+    - npm run migrate
+    - graphql typeDefs, resolver 추가
+    - @relations 관계이기 때문에 following만 핸들링하면 follower는 자동으로 반영됨 
+- [ ] See Followers/Following with Pagination
+    - resolver 에      
+         include: {
+          following: true,
+          followers: true,
+        },
+        를 추가하면, 모든 following/followers 를 불러올 수 있다.
+        그렇지만! 팔로워가 백만이 넘어간다면? 많은 데이터를 모두 불러오는 것은 데이터베이스 과부화를 유발할 수 있다. 따라서 기본적으로 Prisma에서는 include를 사용하지않으면 null로 가져오는 것이다. following/followers는 페이징으로 가져오자!
+- [ ] Computed Fields(계산된 필드들!!)
 - [ ] Search Users
 
 ## Photos
