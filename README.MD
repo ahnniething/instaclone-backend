@@ -121,6 +121,10 @@ Instaclone Backend
         },
         를 추가하면, 모든 following/followers 를 불러올 수 있다.
         그렇지만! 팔로워가 백만이 넘어간다면? 많은 데이터를 모두 불러오는 것은 데이터베이스 과부화를 유발할 수 있다. 따라서 기본적으로 Prisma에서는 include를 사용하지않으면 null로 가져오는 것이다. following/followers는 페이징으로 가져오자!
+    - offset pagination
+        전체 페이지 수에 따라서 몇 개의 페이지인지 나눠지고,
+        2페이지를 보고있다가 5페이지로 바로 넘어가고 싶을 때 쓴다!
+    - curor-based pagination
 - [ ] Computed Fields(계산된 필드들!!)
 - [ ] Search Users
 
