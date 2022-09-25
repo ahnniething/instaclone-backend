@@ -111,7 +111,7 @@ Instaclone Backend
     - https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations
     - schema.prisma 에 Followers, Following 추가
     - npm run migrate
-    - graphql typeDefs, resolver 추가
+    - graphql typeDefs, resolvers 추가
     - @relations 관계이기 때문에 following만 핸들링하면 follower는 자동으로 반영됨 
 - [ ] See Followers/Following with Pagination
     - resolver 에      
@@ -124,7 +124,12 @@ Instaclone Backend
     - offset pagination
         전체 페이지 수에 따라서 몇 개의 페이지인지 나눠지고,
         2페이지를 보고있다가 5페이지로 바로 넘어가고 싶을 때 쓴다!
+        User 유무 유효성 검사 시 user 존재 유무를 체크하는 것이므로 user의 모든 필드를 가져오지 말고, id만 가져오자
+        장점 : 다른 페이지로 바로 점프할 수 있다
+        단점 : 만약 총 20만개인데 마지막 페이지를 가져오려면 전 페이지까지의 데이터 수 즉, 약 20만개의 데이터를 스킵해야하므로 느려질 것이다. 이럴 때는 curor-based pagination을 쓰도록 하자.
     - curor-based pagination
+   
+
 - [ ] Computed Fields(계산된 필드들!!)
 - [ ] Search Users
 
