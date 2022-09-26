@@ -128,8 +128,10 @@ Instaclone Backend
         장점 : 다른 페이지로 바로 점프할 수 있다
         단점 : 만약 총 20만개인데 마지막 페이지를 가져오려면 전 페이지까지의 데이터 수 즉, 약 20만개의 데이터를 스킵해야하므로 느려질 것이다. 이럴 때는 curor-based pagination을 쓰도록 하자.
     - curor-based pagination
-   
-
+        - https://www.prisma.io/docs/concepts/components/prisma-client/pagination
+        - 우리가 본 마지막 결과물의 아이디 값이 무엇인지 알려줘야 함.
+        - 우리가 본 마지막 결과물의 아이디 값을 넘겨주는데, 첫번째 페이지는 마지막결과물이 없으니 required로 만들면 안된다.
+        - 예를 들면, 1,2,3,4,5,6,7,8,9,10 게시물 id가 이렇게 있다고 할 때, 마지막으로 페이지에서 본 게시물 아이디가 3이라면, 다음 요청에 3을 보내고, 3을 스킵하고 3 다음부터 보내줘 라고 요청하는 것이다.
 - [ ] Computed Fields(계산된 필드들!!)
 - [ ] Search Users
 
