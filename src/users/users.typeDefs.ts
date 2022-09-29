@@ -16,9 +16,6 @@ export default gql`
     totalFollowing: Int!
     totalFollowers: Int!
     isMe: Boolean!
+    isFollowing: Boolean!
   }
 `;
-
-// 로그인 여부에 따라 변경되는 필드들
-// isFollowing: Boolean!
-// isMe: Boolean!

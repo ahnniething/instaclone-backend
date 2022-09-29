@@ -39,6 +39,24 @@ const resolvers: Resolvers = {
       }
       return true;
     },
+    isFollowing: async (
+      parent: User,
+      args,
+      { client, loggedInUser }: Context
+    ): Promise<boolean> => {
+      if (loggedInUser === null) {
+        return false;
+      }
+
+      const countedFollowing = await client.user.count({
+        where: {
+          username: loggedInUser.username,
+          following: { some: { id: parent.id } },
+        },
+      });
+      //0이면 false, 0 이상이면 true
+      return Boolean(countedFollowing);
+    },
   },
 };
 
