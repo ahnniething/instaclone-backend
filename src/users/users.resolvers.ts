@@ -33,6 +33,12 @@ const resolvers: Resolvers = {
         return 0;
       }
     },
+    isMe: (parent: User, args, { loggedInUser }: Context): boolean => {
+      if (loggedInUser === null || parent.id !== loggedInUser.id) {
+        return false;
+      }
+      return true;
+    },
   },
 };
 
