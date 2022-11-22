@@ -5,6 +5,8 @@ export default gql`
     ok: Boolean!
     error: String
   }
+  scalar Upload
+
   type Mutation {
     editProfile(
       firstName: String
@@ -12,6 +14,8 @@ export default gql`
       username: String
       email: String
       password: String
+      bio: String
+      avatar: Upload
     ): EditProfileResult!
   }
 `;

@@ -1,5 +1,4 @@
 import { User, PrismaClient } from "@prisma/client";
-import client from "./client";
 
 type Context = {
   loggedInUser?: User;

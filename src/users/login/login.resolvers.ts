@@ -10,7 +10,7 @@ const resolvers: Resolvers = {
       if (!user) {
         return {
           ok: false,
-          error: "User not found."
+          error: "User not found.",
         };
       }
       // check password with args.password
@@ -18,17 +18,20 @@ const resolvers: Resolvers = {
       if (!passwordOk) {
         return {
           ok: false,
-          error: "Incorrect password."
+          error: "Incorrect password.",
         };
       }
       // issue a token(jwt) and send it to the user
-      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY!);
+      const token = await jwt.sign(
+        { id: user.id },
+        process.env.JWT_SECRET_KEY!
+      );
       return {
         ok: true,
-        token
+        token,
       };
-    }
-  }
+    },
+  },
 };
 
 export default resolvers;

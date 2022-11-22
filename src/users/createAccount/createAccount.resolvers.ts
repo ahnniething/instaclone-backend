@@ -14,35 +14,41 @@ const resolvers: Resolvers = {
           where: {
             OR: [
               {
-                username
+                username,
               },
               {
-                email
-              }
-            ]
-          }
+                email,
+              },
+            ],
+          },
         });
         //error handling
         if (existingUser) {
           throw new Error("This username/email is already taken.");
         }
         // hash password
-        const uglyPassword = await bcrypt.hash(password, 10);
+        const codedPassword = await bcrypt.hash(password, 10);
         // save and return
-        return client.user.create({
+        await client.user.create({
           data: {
             firstName,
             lastName,
             username,
             email,
-            password: uglyPassword
-          }
+            password: codedPassword,
+          },
         });
+        return {
+          ok: true,
+        };
       } catch (e) {
-        return e;
+        return {
+          ok: false,
+          error: "Can't create account.",
+        };
       }
-    }
-  }
+    },
+  },
 };
 
 export default resolvers;
