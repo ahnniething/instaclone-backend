@@ -132,7 +132,20 @@ Instaclone Backend
         - 우리가 본 마지막 결과물의 아이디 값이 무엇인지 알려줘야 함.
         - 우리가 본 마지막 결과물의 아이디 값을 넘겨주는데, 첫번째 페이지는 마지막결과물이 없으니 required로 만들면 안된다.
         - 예를 들면, 1,2,3,4,5,6,7,8,9,10 게시물 id가 이렇게 있다고 할 때, 마지막으로 페이지에서 본 게시물 아이디가 3이라면, 다음 요청에 3을 보내고, 3을 스킵하고 3 다음부터 보내줘 라고 요청하는 것이다.
-- [ ] Computed Fields(계산된 필드들!!)
+        장점 : 데이터 수가 많아져도 과부하 안 걸림, 인피니티 스크롤에 주로 사용
+        단점 : 특정 페이지로 점프 불가
+- [x] Computed Fields(계산된 필드들!!)
+        - GraphQL Schema에는 있지만 데이터베이스에는 없는 것을 뜻함
+        - request 할 때 마다 계산이 됨
+        - user model에 추가 : totalFollowing: Int!  totalFollowers: Int!
+        - users.resolvers.ts 에 리졸버를 만들어서 숫자를 계산함
+        ** graphql type User에 있는 field의 resolver를 만드는 것
+        - ** seeProfile을 리퀘스트하면 totalFollowing, totalFollowers 가 데이터베이스 필드에 없기 때문에 User의 리졸버를 찾아서 리졸버를 실행시킨다. 이 때 resolver의  root, args, context, info 인자 중 첫번째 인자인 root를 사용해서 요청한 username을 가져올 수 있다. root.username
+- [x] Search Users
+    - keyword Startswith
+    - paging 으로 구현하기
+
+
 - [ ] Search Users
 
 ## Photos
